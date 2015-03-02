@@ -1,0 +1,67 @@
+public interface IArticle
+{
+    string Make { get; }
+
+    string Model { get; }
+
+    decimal Price { get; }        
+}
+public interface IInstrument : IArticle
+{
+   string Color { get; }
+
+   bool IsElectronic { get; }
+}
+public interface IMicrophone : IArticle
+{
+    bool HasCable { get; }
+}
+public interface IGuitar : IInstrument
+{
+    string BodyWood { get; }
+
+    string FingerboardWood { get; }
+
+    int NumberOfStrings { get; }
+}
+public interface IDrums : IInstrument
+{
+    int Width { get; }
+
+    int Height { get; }
+}
+public interface IAcousticGuitar : IGuitar
+{
+    bool CaseIncluded { get; }
+
+    StringMaterial StringMaterial { get; }
+}
+public interface IBassGuitar : IGuitar
+{
+}
+public interface IElectricGuitar : IGuitar
+{
+    int NumberOfAdapters { get; }
+
+    int NumberOfFrets { get; }
+}
+public interface IMusicShop
+{
+    string Name { get; }
+
+    IList<IArticle> Articles { get; }
+
+    void AddArticle(IArticle article);
+
+    void RemoveArticle(IArticle article);
+
+    string ListArticles();
+}
+// IMusicShop
+// IArticle > IMicrophone
+// IArticle > IInstrument
+// IInstrument > IGuitar
+// IInstrument > IDrums
+// IGuitar > IElectricGuitar
+// IGuitar > IBassGuitar
+// IGuitar > IAcousticGuitar
