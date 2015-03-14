@@ -57,11 +57,3 @@ public interface IMusicShop
 
     string ListArticles();
 }
-// IMusicShop
-// IArticle > IMicrophone
-// IArticle > IInstrument
-// IInstrument > IGuitar
-// IInstrument > IDrums
-// IGuitar > IElectricGuitar
-// IGuitar > IBassGuitar
-// IGuitar > IAcousticGuitar
