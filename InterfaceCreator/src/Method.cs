@@ -7,7 +7,7 @@
 
     public class Method : Component, IMethod
     {
-        private const string MethodFormat = "\tpublic {0} {1}({2})";
+        private const string MethodFormat = "\t\tpublic {0} {1}({2})";
 
         private IList<string> parameters;
 
@@ -34,9 +34,9 @@
 
             result.AppendLine();
             result.AppendLine(string.Format(MethodFormat, this.Type, this.Name, joinedParameters));
-            result.AppendLine("\t{");
-            result.AppendLine("\t\t// TODO: implement this method");
-            result.AppendLine("\t}");
+            result.AppendLine("\t\t{");
+            result.AppendLine("\t\t\t// TODO: implement this method");
+            result.AppendLine("\t\t}");
 
             return result.ToString().TrimEnd();
         }

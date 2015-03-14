@@ -9,6 +9,7 @@
     public class ClassNode : IClassNode
     {
         private string interfaceName;
+        private string namespaceName;
         private string name;
         private IList<IProperty> properties;
         private IList<IProperty> currentProperties;
@@ -22,6 +23,12 @@
             this.properties = new List<IProperty>();
             this.methods = new List<IMethod>();
             this.children = new List<IClassNode>();
+        }
+
+        public ClassNode(string interfaceName, string namespaceName)
+            : this(interfaceName)
+        {
+            this.NamespaceName = namespaceName;
         }
 
         public string IterfaceName
@@ -39,6 +46,24 @@
                 }
 
                 this.interfaceName = value;
+            }
+        }
+
+        public string NamespaceName
+        {
+            get
+            {
+                return this.namespaceName;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException("The namespace cannot be null or empty");
+                }
+
+                this.namespaceName = value;
             }
         }
 
@@ -144,13 +169,13 @@
         {
             var result = new StringBuilder();
             result.AppendLine(this.CreateBegining());
-            result.AppendLine("{");
+            result.AppendLine("\t{");
 
             if (this.CurrentProperties.Count != 0)
             {
                 foreach (var property in this.CurrentProperties)
                 {
-                    result.AppendLine("\t" + property.CreateField());
+                    result.AppendLine("\t\t" + property.CreateField());
                 }
 
                 result.AppendLine();
@@ -163,7 +188,7 @@
 
             foreach (var property in this.CurrentProperties)
             {
-                result.AppendLine("\t" + property.CreateProperty());
+                result.AppendLine("\t\t" + property.CreateProperty());
             }
 
             foreach (var method in this.methods)
@@ -171,15 +196,17 @@
                 result.AppendLine(method.ToString());
             }
 
+            result.AppendLine("\t}");
             result.AppendLine("}");
-
             return result.ToString().TrimEnd();
         }
 
         private string CreateBegining()
         {
             var result = new StringBuilder();
-            result.Append("public ");
+            result.Append("namespace ").AppendLine(this.NamespaceName);
+            result.AppendLine("{");
+            result.Append("\tpublic ");
             if (this.children.Count > 1)
             {
                 result.Append("abstract ");
@@ -200,28 +227,28 @@
         {
             var result = new StringBuilder();
             var allProperties = this.properties.Where(x => !x.IsGeneric);
-            result.AppendFormat("\tpublic {0}({1})", this.Name, string.Join(", ", allProperties)).AppendLine();
+            result.AppendFormat("\t\tpublic {0}({1})", this.Name, string.Join(", ", allProperties)).AppendLine();
 
             if (this.HasParent && this.BaseProperties.Count != 0)
             {
                 var names = this.BaseProperties.Where(x => !x.IsGeneric).Select(x => x.FieldName);
-                result.AppendFormat("\t\t: base({0})", string.Join(", ", names)).AppendLine();
+                result.AppendFormat("\t\t\t: base({0})", string.Join(", ", names)).AppendLine();
             }
 
-            result.AppendLine("\t{");
+            result.AppendLine("\t\t{");
             foreach (var property in this.CurrentProperties)
             {
                 if (property.IsGeneric)
                 {
-                    result.AppendFormat("\t\tthis.{0} = new {1}();", property.Name, property.Type.Substring(1)).AppendLine();
+                    result.AppendFormat("\t\t\tthis.{0} = new {1}();", property.Name, property.Type.Substring(1)).AppendLine();
                 }
                 else
                 {
-                    result.AppendFormat("\t\tthis.{0} = {1};", property.Name, property.FieldName).AppendLine();
+                    result.AppendFormat("\t\t\tthis.{0} = {1};", property.Name, property.FieldName).AppendLine();
                 }
             }
 
-            result.AppendLine("\t}");
+            result.AppendLine("\t\t}");
             return result.ToString().TrimEnd();
         }
     }

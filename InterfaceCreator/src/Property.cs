@@ -8,7 +8,7 @@
     {
         private const string ToStringFormat = "{0} {1}";
         private const string FieldFormat = "private {0} {1};";
-        private const string PropertyFormat = "\tpublic {0} {1}";
+        private const string PropertyFormat = "\t\tpublic {0} {1}";
         private const bool DefaultIsGenericType = false;
         private const bool DefaultIsPublicSetter = false;
 
@@ -61,11 +61,11 @@
             var result = new StringBuilder();
             result.AppendLine();
             result.AppendLine(string.Format(PropertyFormat, this.Type, this.Name));
-            result.AppendLine("\t{");
+            result.AppendLine("\t\t{");
             result.AppendLine(this.GenerateGetter());
             result.AppendLine();
             result.AppendLine(this.GenerateSetter());
-            result.AppendLine("\t}");
+            result.AppendLine("\t\t}");
 
             return result.ToString().TrimEnd();
         }
@@ -78,18 +78,18 @@
         private string GenerateGetter()
         {
             var result = new StringBuilder();
-            result.AppendLine("\t\tget");
-            result.AppendLine("\t\t{");
+            result.AppendLine("\t\t\tget");
+            result.AppendLine("\t\t\t{");
             if (this.IsGeneric)
             {
-                result.AppendLine(string.Format("\t\t\treturn new {0}(this.{1});", this.Type.Substring(1), this.FieldName));
+                result.AppendLine(string.Format("\t\t\t\treturn new {0}(this.{1});", this.Type.Substring(1), this.FieldName));
             }
             else
             {
-                result.AppendLine(string.Format("\t\t\treturn this.{0};", this.FieldName));
+                result.AppendLine(string.Format("\t\t\t\treturn this.{0};", this.FieldName));
             }
 
-            result.AppendLine("\t\t}");
+            result.AppendLine("\t\t\t}");
             return result.ToString().TrimEnd();
         }
 
@@ -98,22 +98,22 @@
             var result = new StringBuilder();
             if (this.IsPublicSetter)
             {
-                result.AppendLine("\t\tset");
+                result.AppendLine("\t\t\tset");
             }
             else
             {
-                result.AppendLine("\t\tprivate set");
+                result.AppendLine("\t\t\tprivate set");
             }
 
-            result.AppendLine("\t\t{");
+            result.AppendLine("\t\t\t{");
             if (this.Type != "bool" && !this.IsGeneric)
             {
-                result.AppendLine("\t" + this.GenerateIfStatement());
+                result.AppendLine("\t\t" + this.GenerateIfStatement());
                 result.AppendLine();
             }
 
-            result.AppendLine(string.Format("\t\t\tthis.{0} = value;", this.FieldName));
-            result.AppendLine("\t\t}");
+            result.AppendLine(string.Format("\t\t\t\tthis.{0} = value;", this.FieldName));
+            result.AppendLine("\t\t\t}");
 
             return result.ToString().TrimEnd();
         }
@@ -138,9 +138,9 @@
 
             string statementFormat = "\t\tif ({0})";
             result.AppendLine(string.Format(statementFormat, statement));
-            result.AppendLine("\t\t\t{");
+            result.AppendLine("\t\t\t\t{");
 
-            string exceptionFormat = "\t\t\t\tthrow new ArgumentException(\"{0}\");";
+            string exceptionFormat = "\t\t\t\t\tthrow new ArgumentException(\"{0}\");";
             string exceptionValue = "The " + this.FieldName + " cannot be ";
             switch (this.Type)
             {
@@ -159,7 +159,7 @@
             }
 
             result.AppendLine(string.Format(exceptionFormat, exceptionValue));
-            result.AppendLine("\t\t\t}");
+            result.AppendLine("\t\t\t\t}");
 
             return result.ToString().TrimEnd();
         }
