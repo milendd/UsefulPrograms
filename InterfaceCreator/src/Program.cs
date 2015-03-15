@@ -20,11 +20,13 @@
                 // 0. Bug: Fix new line when no properties
                 // 0. Bug: Consider for ISet and ICollection!!!
                 // 0. Consider bool for automatic property.
+                // 0. Don't know if it is bug, but think for abstract on node with 1 child(shouldn't have abstract)
                 // 1. Fix the order in the input if possible (no order matters). Very difficult!!!
                 // 2. Add namespace name if possible.
                 // 3. Extract to methods processLines.
                 // 4. Run StyleCop. Refactor everything for high quality code. Add public documentation to interface.
                 // Double, long and int -> array. Add unit tests. Remove all string concatination.Use append instead.
+                // Think for removing the second constructor from the class node(it can stay this way)
                 // 5. Try with the full interface, including the namespace. 
                 // 6. If bool, consider to Toggle, Convert, and so on...
                 // 7. Think for multiple interfaces: Human, ISmt, IOther, ...
@@ -32,6 +34,9 @@
                 // 9. It is possible for virtual components(don't know if is possible).
                 // 10. Implement ToString() + base calling and const string format.
                 // 11. Add stopwatch for the user.
+                // 12. Add instructions in the github page.
+                // 13. Rename project, folders, etc... to Class creator, not interface creator
+                // 14. Implement additional functionality -> create class on properties (not just interface)
             }
             catch (FileNotFoundException)
             {
@@ -51,7 +56,7 @@
             }
             finally
             {
-                // Thread.Sleep(5000);
+                Thread.Sleep(5000);
             }
         }
     }

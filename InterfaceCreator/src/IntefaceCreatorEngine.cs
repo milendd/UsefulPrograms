@@ -16,6 +16,7 @@
         private readonly IList<string> lines;
         private readonly IDictionary<string, IClassNode> nodes;
         private readonly IDictionary<string, string> childs;
+        private string namespaceName;
 
         private InterfacesCreatorEngine()
         {
@@ -39,11 +40,36 @@
             }
         }
 
+        public string NamespaceName
+        {
+            get
+            {
+                return this.namespaceName;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException("The namespace cannot be null or empty");
+                }
+
+                this.namespaceName = value;
+            }
+        }
+
         public void Run()
         {
+            this.InputNamespaceName();
             this.ReadLines();
             this.ProcessLines();
             this.WriteLines();
+        }
+
+        private void InputNamespaceName()
+        {
+            Console.WriteLine("Please enter the namespace in which you want to create the classes:");
+            this.NamespaceName = Console.ReadLine();
         }
 
         private void ReadLines()
@@ -81,7 +107,7 @@
                 if (line.Contains("interface"))
                 {
                     currentName = elements[2];
-                    currentNode = new ClassNode(currentName);
+                    currentNode = new ClassNode(currentName, this.NamespaceName);
                     this.nodes[currentName] = currentNode;
 
                     if (elements.Length > 3)
