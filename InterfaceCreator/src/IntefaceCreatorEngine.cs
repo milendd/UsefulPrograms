@@ -102,7 +102,6 @@
 
                 bool isPublicSetter = line.Contains("set");
                 var inputElements = line.Split(this.separators, StringSplitOptions.RemoveEmptyEntries);
-                var result = string.Join(" ", inputElements);
 
                 if (line.Contains("interface"))
                 {

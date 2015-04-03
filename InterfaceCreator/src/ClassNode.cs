@@ -196,8 +196,11 @@
                 result.AppendLine(method.ToString());
             }
 
+            result.AppendLine();
+            result.AppendLine(this.CreateToString());
             result.AppendLine("\t}");
             result.AppendLine("}");
+
             return result.ToString().TrimEnd();
         }
 
@@ -249,6 +252,18 @@
             }
 
             result.AppendLine("\t\t}");
+            return result.ToString().TrimEnd();
+        }
+
+        private string CreateToString()
+        {
+            var result = new StringBuilder();
+
+            result.AppendLine("\t\tpublic override string ToString()");
+            result.AppendLine("\t\t{");
+            result.AppendLine("\t\t\t// Do smth");
+            result.AppendLine("\t\t}");
+
             return result.ToString().TrimEnd();
         }
     }

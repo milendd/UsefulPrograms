@@ -12,10 +12,9 @@
             try
             {
                 InterfacesCreatorEngine.Instance.Run();
-                Console.WriteLine(new string('#', 70));
+                Console.WriteLine(new string('#', 40));
                 Console.WriteLine("The classes were created successfully.");
-                Console.WriteLine("If some property is enum, remove the null condition from it's setter.");
-                Console.WriteLine(new string('#', 70));
+                Console.WriteLine(new string('#', 40));
 
                 // 0. Bug: Fix new line when no properties
                 // 0. Bug: Consider for ISet and ICollection!!!
@@ -23,22 +22,20 @@
                 // 0. Don't know if it is bug, but think for abstract on node with 1 child(shouldn't have abstract)
                 // 1. Fix the order in the input if possible (no order matters). Very difficult!!!
                 // 2. Add namespace name if possible.
-                // 3. Extract to methods processLines.
-                // 4. Run StyleCop. Refactor everything for high quality code. Add public documentation to interface.
+                // 3. Run StyleCop. Refactor everything for high quality code. Add public documentation to interface.
                 // Double, long and int -> array. Add unit tests. Remove all string concatination.Use append instead.
                 // Think for removing the second constructor from the class node(it can stay this way)
-                // 5. Try with the full interface, including the namespace. 
-                // 6. If bool, consider to Toggle, Convert, and so on...
-                // 7. Think for multiple interfaces: Human, ISmt, IOther, ...
-                // 8. Think for using(should create them if not exists, or taken from the input).
-                // 9. It is possible for virtual components(don't know if is possible).
-                // 10. Implement ToString() + base calling and const string format.
-                // 11. Add stopwatch for the user.
-                // 12. Add instructions in the github page.
-                // 13. Rename project, folders, etc... to Class creator, not interface creator
-                // 14. Implement additional functionality -> create class on properties (not just interface)
-                // 15. Remove repeating code in Process class and interface.
-                // 16. Think for repeating elements(for example two classes Person)
+                // 4. Try with the full interface, including the namespace. 
+                // 5. If bool, consider to Toggle, Convert, and so on...
+                // 6. Think for multiple interfaces: Human, ISmt, IOther, ...
+                // 7. Think for using(should create them if not exists, or taken from the input).
+                // 8. It is possible for virtual components(don't know if is possible).
+                // 9. Implement ToString() + base calling and const string format.
+                // 10. Add stopwatch for the user.
+                // 11. Add instructions in the github page.
+                // 12. Rename project, folders, etc... to Class creator, not interface creator
+                // 13. Remove repeating code in Process class and interface.
+                // 14. Think for repeating elements(for example two classes Person)
             }
             catch (FileNotFoundException)
             {
@@ -58,7 +55,7 @@
             }
             finally
             {
-                Thread.Sleep(5000);
+                Thread.Sleep(4000);
             }
         }
     }
