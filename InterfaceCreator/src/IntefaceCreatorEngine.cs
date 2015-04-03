@@ -16,7 +16,10 @@
         private readonly IList<string> lines;
         private readonly IDictionary<string, IClassNode> nodes;
         private readonly IDictionary<string, string> childs;
+
         private string namespaceName;
+        private string currentNodeName;
+        private ClassNode currentNode;
 
         private InterfacesCreatorEngine()
         {
@@ -89,9 +92,6 @@
 
         private void ProcessLines()
         {
-            string currentName = null;
-            ClassNode currentNode = null;
-
             foreach (var inputLine in this.lines)
             {
                 string line = inputLine;
@@ -101,48 +101,24 @@
                 }
 
                 bool isPublicSetter = line.Contains("set");
-                var elements = line.Split(this.separators, StringSplitOptions.RemoveEmptyEntries);
-                var result = string.Join(" ", elements);
+                var inputElements = line.Split(this.separators, StringSplitOptions.RemoveEmptyEntries);
+                var result = string.Join(" ", inputElements);
 
                 if (line.Contains("interface"))
                 {
-                    currentName = elements[2];
-                    currentNode = new ClassNode(currentName, this.NamespaceName);
-                    this.nodes[currentName] = currentNode;
-
-                    if (elements.Length > 3)
-                    {
-                        var parentName = elements[3];
-                        this.nodes[parentName].AddChild(currentNode);
-                    }
+                    this.ProcessInterfaceCommand(inputElements);
+                }
+                else if (line.Contains("class"))
+                {
+                    this.ProcessClassCommand(inputElements);
                 }
                 else if (line.Contains("{") && line.Contains("}"))
                 {
-                    var propertyType = elements[0];
-                    var propertyName = elements[1];
-                    var property = new Property(propertyType, propertyName);
-                    if (isPublicSetter)
-                    {
-                        property.IsPublicSetter = true;
-                    }
-
-                    currentNode.AddProperty(property);
+                    this.ProcessPropertyCommand(inputElements, isPublicSetter);
                 }
                 else if (line.Contains("(") && line.Contains(")"))
                 {
-                    var methodType = elements[0];
-                    var methodName = elements[1];
-                    var method = new Method(methodType, methodName);
-                    if (elements.Length > 2)
-                    {
-                        for (int i = 2; i < elements.Length; i += 2)
-                        {
-                            var parameter = elements[i] + " " + elements[i + 1];
-                            method.AddParameter(parameter);
-                        }
-                    }
-
-                    currentNode.AddMethod(method);
+                    this.ProcessMethodCommand(inputElements);
                 }
             }
         }
@@ -157,6 +133,62 @@
                     writer.Write(item.Value);
                 }
             }
+        }
+
+        private void ProcessInterfaceCommand(string[] inputElements)
+        {
+            this.currentNodeName = inputElements[2];
+            this.currentNode = new ClassNode(this.currentNodeName, this.NamespaceName);
+            this.nodes[this.currentNodeName] = this.currentNode;
+
+            if (inputElements.Length > 3)
+            {
+                var parentName = inputElements[3];
+                this.nodes[parentName].AddChild(this.currentNode);
+            }
+        }
+
+        private void ProcessClassCommand(string[] inputElements)
+        {
+            this.currentNodeName = "I" + inputElements[2];
+            this.currentNode = new ClassNode(this.currentNodeName, this.NamespaceName);
+            this.nodes[this.currentNodeName] = this.currentNode;
+
+            if (inputElements.Length > 3)
+            {
+                var parentName = inputElements[3];
+                this.nodes[parentName].AddChild(this.currentNode);
+            }
+        }
+
+        private void ProcessPropertyCommand(string[] inputElements, bool isPublicSetter)
+        {
+            var propertyType = inputElements[0];
+            var propertyName = inputElements[1];
+            var property = new Property(propertyType, propertyName);
+            if (isPublicSetter)
+            {
+                property.IsPublicSetter = true;
+            }
+
+            this.currentNode.AddProperty(property);
+        }
+
+        private void ProcessMethodCommand(string[] inputElements)
+        {
+            var methodType = inputElements[0];
+            var methodName = inputElements[1];
+            var method = new Method(methodType, methodName);
+            if (inputElements.Length > 2)
+            {
+                for (int i = 2; i < inputElements.Length; i += 2)
+                {
+                    var parameter = inputElements[i] + " " + inputElements[i + 1];
+                    method.AddParameter(parameter);
+                }
+            }
+
+            this.currentNode.AddMethod(method);
         }
     }
 }

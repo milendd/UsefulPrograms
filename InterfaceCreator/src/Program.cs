@@ -37,6 +37,8 @@
                 // 12. Add instructions in the github page.
                 // 13. Rename project, folders, etc... to Class creator, not interface creator
                 // 14. Implement additional functionality -> create class on properties (not just interface)
+                // 15. Remove repeating code in Process class and interface.
+                // 16. Think for repeating elements(for example two classes Person)
             }
             catch (FileNotFoundException)
             {

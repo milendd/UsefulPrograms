@@ -89,3 +89,9 @@ namespace ConsoleForum.Contracts
         void Run();
     }
 }
+public class Person
+{
+	string Name { get; }
+	int Age { get; }
+	string Email{ get; set;}
+}
