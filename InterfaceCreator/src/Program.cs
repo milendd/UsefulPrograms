@@ -12,6 +12,7 @@
             try
             {
                 InterfacesCreatorEngine.Instance.Run();
+                Console.Clear();
                 Console.WriteLine(new string('#', 40));
                 Console.WriteLine("The classes were created successfully.");
                 Console.WriteLine(new string('#', 40));
@@ -36,6 +37,7 @@
                 // 12. Rename project, folders, etc... to Class creator, not interface creator
                 // 13. Remove repeating code in Process class and interface.
                 // 14. Think for repeating elements(for example two classes Person)
+                // 15. Var everything
             }
             catch (FileNotFoundException)
             {

@@ -92,7 +92,7 @@
             }
         }
 
-        public IList<IProperty> CurrentProperties
+        public virtual IList<IProperty> CurrentProperties
         {
             get
             {
@@ -110,13 +110,20 @@
             }
         }
 
-        public IList<IProperty> BaseProperties
+        public virtual IList<IProperty> BaseProperties
         {
             get
             {
                 if (this.baseProperties == null)
                 {
-                    this.baseProperties = this.Parent.Properties;
+                    if (this.HasParent)
+                    {
+                        this.baseProperties = this.Parent.Properties;
+                    }
+                    else
+                    {
+                        return new List<IProperty>();
+                    }
                 }
 
                 return new List<IProperty>(this.baseProperties);
@@ -170,9 +177,10 @@
             var result = new StringBuilder();
             result.AppendLine(this.CreateBegining());
             result.AppendLine("\t{");
-
-            if (this.CurrentProperties.Count != 0)
+            if (this.CurrentProperties.Count > 0)
             {
+                result.AppendLine(this.CreateStringFormat());
+                result.AppendLine();
                 foreach (var property in this.CurrentProperties)
                 {
                     result.AppendLine("\t\t" + property.CreateField());
@@ -181,7 +189,7 @@
                 result.AppendLine();
             }
 
-            if (this.Properties.Count != 0)
+            if (this.Properties.Count > 0)
             {
                 result.AppendLine(this.CreateConstructor());
             }
@@ -196,11 +204,41 @@
                 result.AppendLine(method.ToString());
             }
 
-            result.AppendLine();
-            result.AppendLine(this.CreateToString());
+            if (this.CurrentProperties.Count > 0)
+            {
+                result.AppendLine();
+                result.AppendLine(this.CreateToString());
+            }
+
             result.AppendLine("\t}");
             result.AppendLine("}");
 
+            return result.ToString().TrimEnd();
+        }
+
+        private string CreateStringFormat()
+        {
+            var result = new StringBuilder();
+
+            result.AppendFormat("\t\tprivate const string {0}Format = \"", this.Name);
+            if (this.BaseProperties.Count > 0)
+            {
+                result.Append("{0}");
+            }
+
+            for (int i = 0; i < this.CurrentProperties.Count; i++)
+            {
+                var currentProperty = this.CurrentProperties[i];
+                var index = i;
+                if (this.BaseProperties.Count > 0)
+                {
+                    index = i + 1;
+                }
+
+                result.Append(currentProperty.Name + ":{" + index + "}");
+            }
+
+            result.Append("\";");
             return result.ToString().TrimEnd();
         }
 
