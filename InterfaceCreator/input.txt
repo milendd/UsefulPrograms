@@ -1,54 +1,6 @@
 namespace Estates.Interfaces
 {
-    public interface IEstate
-    {
-        string Name { get; set; }
-        EstateType Type { get; set; }
-        double Area { get; set; }
-        string Location { get; set; }
-        bool IsFurnished { get; set; }
-    }
-}
-namespace Estates.Interfaces
-{
-    public interface IBuildingEstate : IEstate
-    {
-        int Rooms { get; set; }
-        bool HasElevator { get; set; }
-    }
-}
-namespace Estates.Interfaces
-{
-    public interface IGarage : IEstate
-    {
-        int Width { get; set; }
-        int Height { get; set; }
-    }
-}
-namespace Estates.Interfaces
-{
-    public interface IOffer
-    {
-        OfferType Type { get; set; }
-        IEstate Estate { get; set; }
-    }
-}
-namespace Estates.Interfaces
-{
     public interface IApartment : IBuildingEstate
-    {
-    }
-}
-namespace Estates.Interfaces
-{
-    public interface IHouse : IEstate
-    {
-        int Floors { get; set; }
-    }
-}
-namespace Estates.Interfaces
-{
-    public interface IOffice : IBuildingEstate
     {
     }
 }
@@ -61,8 +13,56 @@ namespace Estates.Interfaces
 }
 namespace Estates.Interfaces
 {
+    public interface IOffice : IBuildingEstate
+    {
+    }
+}
+namespace Estates.Interfaces
+{
     public interface ISaleOffer : IOffer
     {
         decimal Price { get; set; }
+    }
+}
+namespace Estates.Interfaces
+{
+    public interface IHouse : IEstate
+    {
+        int Floors { get; set; }
+    }
+}
+namespace Estates.Interfaces
+{
+    public interface IOffer
+    {
+        OfferType Type { get; set; }
+        IEstate Estate { get; set; }
+    }
+}
+namespace Estates.Interfaces
+{
+    public interface IGarage : IEstate
+    {
+        int Width { get; set; }
+        int Height { get; set; }
+    }
+}
+namespace Estates.Interfaces
+{
+    public interface IBuildingEstate : IEstate
+    {
+        int Rooms { get; set; }
+        bool HasElevator { get; set; }
+    }
+}
+namespace Estates.Interfaces
+{
+    public interface IEstate
+    {
+        string Name { get; set; }
+        EstateType Type { get; set; }
+        double Area { get; set; }
+        string Location { get; set; }
+        bool IsFurnished { get; set; }
     }
 }

@@ -223,7 +223,7 @@
             result.AppendFormat("\t\tprivate const string {0}Format = \"", this.Name);
             if (this.BaseProperties.Count > 0)
             {
-                result.Append("{0};");
+                result.Append("{0}");
             }
 
             for (int i = 0; i < this.CurrentProperties.Count; i++)

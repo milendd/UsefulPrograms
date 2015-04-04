@@ -13,7 +13,7 @@
 
         private readonly string[] separators;
         private readonly StreamReader reader;
-        private readonly IList<string> lines;
+        private IList<string> lines;
         private readonly IDictionary<string, IClassNode> nodes;
         private readonly IDictionary<string, string> childs;
 
@@ -92,6 +92,9 @@
 
         private void ProcessLines()
         {
+            var reorder = new LinesReorder(this.lines);
+            this.lines = reorder.Execute();
+
             foreach (var inputLine in this.lines)
             {
                 string line = inputLine;
