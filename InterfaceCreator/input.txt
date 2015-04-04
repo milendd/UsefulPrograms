@@ -1,97 +1,68 @@
-namespace ConsoleForum.Contracts
+namespace Estates.Interfaces
 {
-    using System.Collections.Generic;
-
-    public interface IUser
+    public interface IEstate
     {
-        int Id { get; set; }
-
-        string Username { get; set; }
-
-        string Password { get; set; }
-
-        string Email { get; set; }
-
-        IList<IQuestion> Questions { get; }
+        string Name { get; set; }
+        EstateType Type { get; set; }
+        double Area { get; set; }
+        string Location { get; set; }
+        bool IsFurnished { get; set; }
     }
 }
-namespace ConsoleForum.Contracts
+namespace Estates.Interfaces
 {
-    public interface IPost
+    public interface IBuildingEstate : IEstate
     {
-        int Id { get; set; }
-
-        string Body { get; set; }
-
-        IUser Author { get; set; }
+        int Rooms { get; set; }
+        bool HasElevator { get; set; }
     }
 }
-namespace ConsoleForum.Contracts
+namespace Estates.Interfaces
 {
-    public interface IAnswer : IPost
+    public interface IGarage : IEstate
     {
+        int Width { get; set; }
+        int Height { get; set; }
     }
 }
-namespace ConsoleForum.Contracts
+namespace Estates.Interfaces
 {
-    using System.Collections.Generic;
-
-    public interface IQuestion : IPost
+    public interface IOffer
     {
-        string Title { get; set; }
-
-        IList<IAnswer> Answers { get; }
+        OfferType Type { get; set; }
+        IEstate Estate { get; set; }
     }
 }
-namespace ConsoleForum.Contracts
+namespace Estates.Interfaces
 {
-    public interface IAdministrator : IUser
+    public interface IApartment : IBuildingEstate
     {
     }
 }
-namespace ConsoleForum.Contracts
+namespace Estates.Interfaces
 {
-    public interface IExecutable
+    public interface IHouse : IEstate
     {
-        void Execute();
+        int Floors { get; set; }
     }
 }
-namespace ConsoleForum.Contracts
+namespace Estates.Interfaces
 {
-    public interface ICommand : IExecutable
+    public interface IOffice : IBuildingEstate
     {
-        IForum Forum { get; }
     }
 }
-namespace ConsoleForum.Contracts
+namespace Estates.Interfaces
 {
-    using System.Collections.Generic;
-    using System.Text;
-
-    public interface IForum
+    public interface IRentOffer : IOffer
     {
-        bool HasStarted { get; set; }
-
-        IList<IUser> Users { get; }
-
-        IList<IQuestion> Questions { get; }
-
-        IList<IAnswer> Answers { get; }
-
-        IQuestion CurrentQuestion { get; set; }
-
-        bool IsLogged { get; }
-
-        IUser CurrentUser { get; set; }
-
-        StringBuilder Output { get; }
-
-        void Run();
+        decimal PricePerMonth { get; set; }
     }
 }
-public class Person
+namespace Estates.Interfaces
 {
-	string Name { get; }
-	int Age { get; }
-	string Email{ get; set;}
+    public interface ISaleOffer : IOffer
+    {
+        decimal Price { get; set; }
+    }
 }
