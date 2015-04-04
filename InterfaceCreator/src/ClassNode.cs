@@ -223,7 +223,7 @@
             result.AppendFormat("\t\tprivate const string {0}Format = \"", this.Name);
             if (this.BaseProperties.Count > 0)
             {
-                result.Append("{0}");
+                result.Append("{0};");
             }
 
             for (int i = 0; i < this.CurrentProperties.Count; i++)
@@ -235,7 +235,7 @@
                     index = i + 1;
                 }
 
-                result.Append(currentProperty.Name + ":{" + index + "}");
+                result.Append(currentProperty.Name + ":{" + index + "};");
             }
 
             result.Append("\";");
@@ -299,7 +299,15 @@
 
             result.AppendLine("\t\tpublic override string ToString()");
             result.AppendLine("\t\t{");
-            result.AppendLine("\t\t\t// Do smth");
+            result.AppendFormat("\t\t\treturn string.Format({0}Format, ", this.Name);
+            if (this.HasParent)
+            {
+                result.Append("base.ToString(), ");
+            }
+
+            var properties = this.CurrentProperties.Select(x => "this." + x.Name);
+            result.Append(string.Join(", ", properties));
+            result.AppendLine(");");
             result.AppendLine("\t\t}");
 
             return result.ToString().TrimEnd();
