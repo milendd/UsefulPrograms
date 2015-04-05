@@ -11,7 +11,7 @@
         {
             try
             {
-                InterfacesCreatorEngine.Instance.Run();
+                InterfacesCreatorEngine.Instance.Run(ReadMethod.TextFile);
                 Console.Clear();
                 Console.WriteLine(new string('#', 40));
                 Console.WriteLine("The classes were created successfully.");

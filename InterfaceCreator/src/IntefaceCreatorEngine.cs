@@ -13,9 +13,9 @@
 
         private readonly string[] separators;
         private readonly StreamReader reader;
-        private IList<string> lines;
         private readonly IDictionary<string, IClassNode> nodes;
         private readonly IDictionary<string, string> childs;
+        private IList<string> lines;
 
         private string namespaceName;
         private string currentNodeName;
@@ -23,7 +23,7 @@
 
         private InterfacesCreatorEngine()
         {
-            this.separators = new string[] { " ", "(", ")", ",", "get", "set", "{", "}", ";", ":", "\t" };
+            this.separators = new string[] { " ", "(", ")", ",", "get;", "set;", "{", "}", ";", ":", "\t" };
             this.reader = new StreamReader(InputFileName);
             this.lines = new List<string>();
             this.nodes = new Dictionary<string, IClassNode>();
@@ -61,10 +61,21 @@
             }
         }
 
-        public void Run()
+        public void Run(ReadMethod readMethod)
         {
             this.InputNamespaceName();
-            this.ReadLines();
+            switch (readMethod)
+            {
+                case ReadMethod.TextFile:
+                    this.ReadLinesFromTextFile();
+                    break;
+                case ReadMethod.Directory:
+                    this.ReadLinesFromDirectory();
+                    break;
+                default:
+                    break;
+            }
+
             this.ProcessLines();
             this.WriteLines();
         }
@@ -75,7 +86,7 @@
             this.NamespaceName = Console.ReadLine();
         }
 
-        private void ReadLines()
+        private void ReadLinesFromTextFile()
         {
             using (this.reader)
             {
@@ -88,6 +99,11 @@
                     line = this.reader.ReadLine();
                 }
             }
+        }
+
+        private void ReadLinesFromDirectory()
+        {
+            // TODO:
         }
 
         private void ProcessLines()

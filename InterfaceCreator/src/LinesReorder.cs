@@ -80,7 +80,7 @@
                 var name = elements[0];
                 if (elements.Length == 1)
                 {
-                    Swap(0, i);
+                    this.Swap(0, i);
                 }
             }
 
@@ -96,7 +96,7 @@
                     var parentIndex = this.allNames.IndexOf(elements[1]);
                     if (currentIndex < parentIndex)
                     {
-                        Swap(currentIndex, parentIndex);
+                        this.Swap(currentIndex, parentIndex);
                     }
                 }
             }

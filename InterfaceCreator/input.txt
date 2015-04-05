@@ -1,68 +1,52 @@
-namespace Estates.Interfaces
+namespace WarMachines.Interfaces
 {
-    public interface IApartment : IBuildingEstate
+    public interface IFighter : IMachine
     {
+        bool StealthMode { get; }
+
+        void ToggleStealthMode();
     }
 }
-namespace Estates.Interfaces
+namespace WarMachines.Interfaces
 {
-    public interface IRentOffer : IOffer
-    {
-        decimal PricePerMonth { get; set; }
-    }
-}
-namespace Estates.Interfaces
-{
-    public interface IOffice : IBuildingEstate
-    {
-    }
-}
-namespace Estates.Interfaces
-{
-    public interface ISaleOffer : IOffer
-    {
-        decimal Price { get; set; }
-    }
-}
-namespace Estates.Interfaces
-{
-    public interface IHouse : IEstate
-    {
-        int Floors { get; set; }
-    }
-}
-namespace Estates.Interfaces
-{
-    public interface IOffer
-    {
-        OfferType Type { get; set; }
-        IEstate Estate { get; set; }
-    }
-}
-namespace Estates.Interfaces
-{
-    public interface IGarage : IEstate
-    {
-        int Width { get; set; }
-        int Height { get; set; }
-    }
-}
-namespace Estates.Interfaces
-{
-    public interface IBuildingEstate : IEstate
-    {
-        int Rooms { get; set; }
-        bool HasElevator { get; set; }
-    }
-}
-namespace Estates.Interfaces
-{
-    public interface IEstate
+    using System.Collections.Generic;
+
+    public interface IMachine
     {
         string Name { get; set; }
-        EstateType Type { get; set; }
-        double Area { get; set; }
-        string Location { get; set; }
-        bool IsFurnished { get; set; }
+
+        IPilot Pilot { get; set; }
+
+        double HealthPoints { get; set; }
+
+        double AttackPoints { get; }
+
+        double DefensePoints { get; }
+
+        IList<string> Targets { get; }
+
+        void Attack(string target);
+
+        string ToString();
+    }
+}
+namespace WarMachines.Interfaces
+{
+    public interface IPilot
+    {
+        string Name { get; }
+
+        void AddMachine(IMachine machine);
+
+        string Report();
+    }
+}
+namespace WarMachines.Interfaces
+{
+    public interface ITank : IMachine
+    {
+        bool DefenseMode { get; }
+
+        void ToggleDefenseMode();
     }
 }

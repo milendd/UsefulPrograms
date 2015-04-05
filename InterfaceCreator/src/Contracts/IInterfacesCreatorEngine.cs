@@ -2,6 +2,6 @@
 {
     public interface IInterfacesCreatorEngine
     {
-        void Run();
+        void Run(ReadMethod readMethod);
     }
 }
