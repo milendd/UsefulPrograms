@@ -18,7 +18,6 @@
                 Console.WriteLine(new string('#', 40));
 
                 // 0. Bug: Fix new line when no properties
-                // 0. Bug: Consider for ISet and ICollection!!!
                 // 0. Consider bool for automatic property.
                 // 0. Don't know if it is bug, but think for abstract on node with 1 child(shouldn't have abstract)
                 // 3. Run StyleCop. Refactor everything for high quality code. Add public documentation to interface.
@@ -35,6 +34,7 @@
                 // 14. Think for repeating elements(for example two classes Person)
                 // 15. Var everything
                 // 16. LinesReorder -> should be high quality!!!!
+                // 17. Remove hack for dictionary line 186 in Engine. Use while and string.Join!
             }
             catch (FileNotFoundException)
             {

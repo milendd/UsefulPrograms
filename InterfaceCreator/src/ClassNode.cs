@@ -164,7 +164,10 @@
                 throw new ArgumentException("The method cannot be null");
             }
 
-            this.methods.Add(method);
+            if (method.Name != "ToString")
+            {
+                this.methods.Add(method);
+            }
         }
 
         public void ClearProperties()
@@ -281,7 +284,7 @@
             {
                 if (property.IsGeneric)
                 {
-                    result.AppendFormat("\t\t\tthis.{0} = new {1}();", property.Name, property.Type.Substring(1)).AppendLine();
+                    result.AppendFormat("\t\t\tthis.{0} = new {1}();", property.Name, property.StringTypeWhenGeneric()).AppendLine();
                 }
                 else
                 {

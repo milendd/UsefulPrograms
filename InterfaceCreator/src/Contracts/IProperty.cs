@@ -11,5 +11,7 @@
         string CreateField();
 
         string CreateProperty();
+
+        string StringTypeWhenGeneric();
     }
 }

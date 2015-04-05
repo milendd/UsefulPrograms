@@ -9,6 +9,10 @@
         private const string ToStringFormat = "{0} {1}";
         private const string FieldFormat = "private {0} {1};";
         private const string PropertyFormat = "\t\tpublic {0} {1}";
+
+        private const string DefaultGenericType = "List";
+        private const string DefaultISetType = "HashSet";
+        private const string DefaultIDictionaryType = "Dictionary";
         private const bool DefaultIsGenericType = false;
         private const bool DefaultIsPublicSetter = false;
 
@@ -70,6 +74,27 @@
             return result.ToString().TrimEnd();
         }
 
+        public string StringTypeWhenGeneric()
+        {
+            int indexOfLower = this.Type.IndexOf("<");
+            string stringType = this.Type.Substring(0, indexOfLower);
+            switch (stringType)
+            {
+                case "ISet":
+                    stringType = DefaultISetType;
+                    break;
+                case "IDictionary":
+                    stringType = DefaultIDictionaryType;
+                    break;
+                default:
+                    stringType = DefaultGenericType;
+                    break;
+            }
+
+            stringType += this.Type.Substring(indexOfLower);
+            return stringType;
+        }
+
         public override string ToString()
         {
             return string.Format(ToStringFormat, this.Type, this.FieldName);
@@ -82,7 +107,7 @@
             result.AppendLine("\t\t\t{");
             if (this.IsGeneric)
             {
-                result.AppendLine(string.Format("\t\t\t\treturn new {0}(this.{1});", this.Type.Substring(1), this.FieldName));
+                result.AppendLine(string.Format("\t\t\t\treturn new {0}(this.{1});", this.StringTypeWhenGeneric(), this.FieldName));
             }
             else
             {

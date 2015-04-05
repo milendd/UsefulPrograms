@@ -23,7 +23,7 @@
 
         private InterfacesCreatorEngine()
         {
-            this.separators = new string[] { " ", "(", ")", ",", "get;", "set;", "{", "}", ";", ":", "\t" };
+            this.separators = new string[] { " ", "(", ")", "get;", "set;", "{", "}", ";", ":", "\t" };
             this.reader = new StreamReader(InputFileName);
             this.lines = new List<string>();
             this.nodes = new Dictionary<string, IClassNode>();
@@ -183,6 +183,14 @@
         {
             var propertyType = inputElements[0];
             var propertyName = inputElements[1];
+
+            // Hack for dictionary
+            if (inputElements.Length == 3)
+            {
+                propertyType += " " + propertyName;
+                propertyName = inputElements[2];
+            }
+
             var property = new Property(propertyType, propertyName);
             if (isPublicSetter)
             {
