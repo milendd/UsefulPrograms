@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using OOP_Interfaces_Creator.Contracts;
 
@@ -61,9 +62,12 @@
             }
         }
 
+        public Stopwatch Stopwatch { get; private set; }
+
         public void Run(ReadMethod readMethod)
         {
             this.InputNamespaceName();
+            this.StartStopwatch();
             switch (readMethod)
             {
                 case ReadMethod.TextFile:
@@ -78,6 +82,23 @@
 
             this.ProcessLines();
             this.WriteLines();
+            this.StopStopwatch();
+        }
+
+        public TimeSpan ElapsedTime()
+        {
+            return this.Stopwatch.Elapsed;
+        }
+
+        private void StartStopwatch()
+        {
+            this.Stopwatch = new Stopwatch();
+            this.Stopwatch.Start();
+        }
+
+        private void StopStopwatch()
+        {
+            this.Stopwatch.Stop();
         }
 
         private void InputNamespaceName()

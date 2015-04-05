@@ -1,0 +1,52 @@
+namespace WarMachines.Interfaces
+{
+    public interface IFighter : IMachine
+    {
+        bool StealthMode { get; }
+
+        void ToggleStealthMode();
+    }
+}
+namespace WarMachines.Interfaces
+{
+    using System.Collections.Generic;
+
+    public interface IMachine
+    {
+        string Name { get; set; }
+
+        IPilot Pilot { get; set; }
+
+        double HealthPoints { get; set; }
+
+        double AttackPoints { get; }
+
+        double DefensePoints { get; }
+
+        ICollection<string> Targets { get; }
+
+        void Attack(string target);
+
+        string ToString();
+    }
+}
+namespace WarMachines.Interfaces
+{
+    public interface IPilot
+    {
+        string Name { get; }
+
+        void AddMachine(IMachine machine);
+
+        string Report();
+    }
+}
+namespace WarMachines.Interfaces
+{
+    public interface ITank : IMachine
+    {
+        bool DefenseMode { get; }
+
+        void ToggleDefenseMode();
+    }
+}

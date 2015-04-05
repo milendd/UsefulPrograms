@@ -12,10 +12,11 @@
             try
             {
                 InterfacesCreatorEngine.Instance.Run(ReadMethod.TextFile);
+                var milliseconds = InterfacesCreatorEngine.Instance.ElapsedTime().Milliseconds;
                 Console.Clear();
-                Console.WriteLine(new string('#', 40));
-                Console.WriteLine("The classes were created successfully.");
-                Console.WriteLine(new string('#', 40));
+                Console.WriteLine(new string('#', 50));
+                Console.WriteLine("The classes were created for {0} milliseconds.", milliseconds);
+                Console.WriteLine(new string('#', 50));
 
                 // 0. Bug: Fix new line when no properties
                 // 0. Consider bool for automatic property.
@@ -27,7 +28,6 @@
                 // 6. Think for multiple interfaces: Human, ISmt, IOther, ...
                 // 7. Think for using(should create them if not exists, or taken from the input).
                 // 8. It is possible for virtual components(don't know if is possible).
-                // 10. Add stopwatch for the user.
                 // 11. Add instructions in the github page.
                 // 12. Rename project, folders, etc... to Class creator, not interface creator
                 // 13. Remove repeating code in Process class and interface.
