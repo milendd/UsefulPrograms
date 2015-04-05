@@ -80,7 +80,7 @@
                 var name = elements[0];
                 if (elements.Length == 1)
                 {
-                    this.Swap(0, i);
+                    this.PushForward(0, i);
                 }
             }
 
@@ -96,13 +96,13 @@
                     var parentIndex = this.allNames.IndexOf(elements[1]);
                     if (currentIndex < parentIndex)
                     {
-                        this.Swap(currentIndex, parentIndex);
+                        this.PushForward(currentIndex, parentIndex);
                     }
                 }
             }
         }
 
-        private void Swap(int currentIndex, int parentIndex)
+        private void PushForward(int currentIndex, int parentIndex)
         {
             var parentName = this.allNames[parentIndex];
             for (int i = parentIndex; i > currentIndex; i--)

@@ -18,6 +18,7 @@
                 Console.WriteLine("The classes were created for {0} milliseconds.", milliseconds);
                 Console.WriteLine(new string('#', 50));
 
+                // 0. Bug: sb = new StringBuilder();
                 // 0. Bug: Fix new line when no properties
                 // 0. Consider bool for automatic property.
                 // 0. Don't know if it is bug, but think for abstract on node with 1 child(shouldn't have abstract)
@@ -26,15 +27,16 @@
                 // Think for removing the second constructor from the class node(it can stay this way)
                 // 5. If bool, consider to Toggle, Convert, and so on...
                 // 6. Think for multiple interfaces: Human, ISmt, IOther, ...
-                // 7. Think for using(should create them if not exists, or taken from the input).
                 // 8. It is possible for virtual components(don't know if is possible).
                 // 11. Add instructions in the github page.
                 // 12. Rename project, folders, etc... to Class creator, not interface creator
                 // 13. Remove repeating code in Process class and interface.
                 // 14. Think for repeating elements(for example two classes Person)
                 // 15. Var everything
-                // 16. LinesReorder -> should be high quality!!!!
+                // 16. LinesReorder -> should be high quality!!!! + interfaces for all
                 // 17. Remove hack for dictionary line 186 in Engine. Use while and string.Join!
+                // 18. Usings should be HQC! That means with arrays with the data.
+                // 19. TODO: implement directory files
             }
             catch (FileNotFoundException)
             {

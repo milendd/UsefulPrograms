@@ -16,6 +16,7 @@
         private IList<IProperty> baseProperties;
         private IList<IMethod> methods;
         private IList<IClassNode> children;
+        private IList<string> usings;
 
         public ClassNode(string interfaceName)
         {
@@ -23,6 +24,7 @@
             this.properties = new List<IProperty>();
             this.methods = new List<IMethod>();
             this.children = new List<IClassNode>();
+            this.usings = new List<string>();
         }
 
         public ClassNode(string interfaceName, string namespaceName)
@@ -216,7 +218,48 @@
             result.AppendLine("\t}");
             result.AppendLine("}");
 
-            return result.ToString().TrimEnd();
+            return this.FormatQueryString(result.ToString().TrimEnd());
+        }
+
+        private void FillUsings()
+        {
+            this.usings.Add("System");
+
+            var haveGenerics = this.CurrentProperties.Where(x => x.IsGeneric).Any();
+            if (haveGenerics)
+            {
+                this.usings.Add("System.Collections.Generic");
+            }
+
+            var itemsFromIO = new List<string>() 
+            { 
+                "Reader", 
+                "Writer", 
+                "Stream", 
+                "Path", 
+                "File", 
+                "Directory"
+            };
+
+            foreach (var item in itemsFromIO)
+            {
+                if (this.Properties.Select(x => x.Type).Contains(item))
+                {
+                    this.usings.Add("System.IO");
+                    break;
+                }
+            }
+
+            var haveStringBuilder = this.CurrentProperties.Where(x => x.Type == "StringBuilder").Any();
+            if (haveStringBuilder)
+            {
+                this.usings.Add("System.Text");
+            }
+        }
+
+        private string FormatQueryString(string text)
+        {
+            return text.Replace("\t", new string(' ', 4));
         }
 
         private string CreateStringFormat()
@@ -250,6 +293,18 @@
             var result = new StringBuilder();
             result.Append("namespace ").AppendLine(this.NamespaceName);
             result.AppendLine("{");
+
+            if (this.Properties.Count > 0)
+            {
+                this.FillUsings();
+                foreach (var use in this.usings)
+                {
+                    result.AppendFormat("\tusing {0};", use).AppendLine();
+                }
+
+                result.AppendLine();
+            }
+            
             result.Append("\tpublic ");
             if (this.children.Count > 1)
             {
