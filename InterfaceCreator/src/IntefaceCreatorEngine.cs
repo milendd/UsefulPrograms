@@ -8,14 +8,14 @@
 
     public class InterfacesCreatorEngine : IInterfacesCreatorEngine
     {
-        private const string InputFileName = "input.txt";
+        public const string InputFileName = "input.txt";
+        public const string OutputDirectoryName = "Models";
 
         private static IInterfacesCreatorEngine instance;
 
         private readonly string[] separators;
         private readonly StreamReader reader;
         private readonly IDictionary<string, IClassNode> nodes;
-        private readonly IDictionary<string, string> childs;
         private IList<string> lines;
 
         private string namespaceName;
@@ -28,7 +28,7 @@
             this.reader = new StreamReader(InputFileName);
             this.lines = new List<string>();
             this.nodes = new Dictionary<string, IClassNode>();
-            this.childs = new Dictionary<string, string>();
+            this.Stopwatch = new Stopwatch();
         }
 
         public static IInterfacesCreatorEngine Instance
@@ -67,7 +67,7 @@
         public void Run(ReadMethod readMethod)
         {
             this.InputNamespaceName();
-            this.StartStopwatch();
+            this.Stopwatch.Start();
             switch (readMethod)
             {
                 case ReadMethod.TextFile:
@@ -77,30 +77,19 @@
                     this.ReadLinesFromDirectory();
                     break;
                 default:
-                    break;
+                    throw new ArgumentException("The read method should be file or directory");
             }
 
             this.ProcessLines();
             this.WriteLines();
-            this.StopStopwatch();
+            this.Stopwatch.Stop();
         }
 
         public TimeSpan ElapsedTime()
         {
             return this.Stopwatch.Elapsed;
         }
-
-        private void StartStopwatch()
-        {
-            this.Stopwatch = new Stopwatch();
-            this.Stopwatch.Start();
-        }
-
-        private void StopStopwatch()
-        {
-            this.Stopwatch.Stop();
-        }
-
+        
         private void InputNamespaceName()
         {
             Console.WriteLine("Please enter the namespace in which you want to create the classes:");
@@ -140,7 +129,7 @@
                     line = line.Substring(0, line.IndexOf("//"));
                 }
 
-                bool isPublicSetter = line.Contains("set");
+                bool isPublicSetter = line.Contains("set;");
                 var inputElements = line.Split(this.separators, StringSplitOptions.RemoveEmptyEntries);
 
                 if (line.Contains("interface"))
@@ -149,7 +138,8 @@
                 }
                 else if (line.Contains("class"))
                 {
-                    this.ProcessClassCommand(inputElements);
+                    inputElements[2] = "I" + inputElements[2];
+                    this.ProcessInterfaceCommand(inputElements);
                 }
                 else if (line.Contains("{") && line.Contains("}"))
                 {
@@ -164,12 +154,13 @@
 
         private void WriteLines()
         {
-            foreach (var item in this.nodes)
+            foreach (var node in this.nodes)
             {
-                var writer = new StreamWriter("Models/" + item.Key.Substring(1) + ".cs");
+                var outputFileName = OutputDirectoryName + "/" + node.Key.Substring(1) + ".cs";
+                var writer = new StreamWriter(outputFileName);
                 using (writer)
                 {
-                    writer.Write(item.Value);
+                    writer.Write(node.Value);
                 }
             }
         }
@@ -177,19 +168,6 @@
         private void ProcessInterfaceCommand(string[] inputElements)
         {
             this.currentNodeName = inputElements[2];
-            this.currentNode = new ClassNode(this.currentNodeName, this.NamespaceName);
-            this.nodes[this.currentNodeName] = this.currentNode;
-
-            if (inputElements.Length > 3)
-            {
-                var parentName = inputElements[3];
-                this.nodes[parentName].AddChild(this.currentNode);
-            }
-        }
-
-        private void ProcessClassCommand(string[] inputElements)
-        {
-            this.currentNodeName = "I" + inputElements[2];
             this.currentNode = new ClassNode(this.currentNodeName, this.NamespaceName);
             this.nodes[this.currentNodeName] = this.currentNode;
 

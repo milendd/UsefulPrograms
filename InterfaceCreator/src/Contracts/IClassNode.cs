@@ -13,9 +13,9 @@
         IClassNode Parent { get; set; }
 
         IList<IProperty> Properties { get; }
-
+        
         IList<IProperty> CurrentProperties { get; }
-
+        
         IList<IProperty> BaseProperties { get; }
 
         void AddChild(IClassNode child);

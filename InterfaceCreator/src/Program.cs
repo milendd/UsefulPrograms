@@ -30,7 +30,6 @@
                 // 8. It is possible for virtual components(don't know if is possible).
                 // 11. Add instructions in the github page.
                 // 12. Rename project, folders, etc... to Class creator, not interface creator
-                // 13. Remove repeating code in Process class and interface.
                 // 14. Think for repeating elements(for example two classes Person)
                 // 15. Var everything
                 // 16. LinesReorder -> should be high quality!!!! + interfaces for all
