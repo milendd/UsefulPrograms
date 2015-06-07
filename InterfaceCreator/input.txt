@@ -1,52 +1,63 @@
-namespace WarMachines.Interfaces
+namespace Cosmetics.Contracts
 {
-    public interface IFighter : IMachine
-    {
-        bool StealthMode { get; }
-
-        void ToggleStealthMode();
-    }
-}
-namespace WarMachines.Interfaces
-{
-    using System.Collections.Generic;
-
-    public interface IMachine
-    {
-        string Name { get; set; }
-
-        IPilot Pilot { get; set; }
-
-        double HealthPoints { get; set; }
-
-        double AttackPoints { get; }
-
-        double DefensePoints { get; }
-
-        IList<string> Targets { get; }
-
-        void Attack(string target);
-
-        string ToString();
-    }
-}
-namespace WarMachines.Interfaces
-{
-    public interface IPilot
+    public interface ICategory
     {
         string Name { get; }
 
-        void AddMachine(IMachine machine);
+        void AddCosmetics(IProduct cosmetics);
 
-        string Report();
+        void RemoveCosmetics(IProduct cosmetics);
+
+        string Print();
     }
 }
-namespace WarMachines.Interfaces
+namespace Cosmetics.Contracts
 {
-    public interface ITank : IMachine
-    {
-        bool DefenseMode { get; }
+    using Cosmetics.Common;
 
-        void ToggleDefenseMode();
+    public interface IProduct
+    {
+        string Name { get; }
+
+        string Brand { get; }
+
+        decimal Price { get; }
+
+        GenderType Gender { get; }
+
+        string Print();
+    }
+}
+namespace Cosmetics.Contracts
+{
+    using Cosmetics.Common;
+
+    public interface IShampoo : IProduct
+    {
+        uint Milliliters { get; }
+
+        UsageType Usage { get; }
+    }
+}
+namespace Cosmetics.Contracts
+{
+    public interface IShoppingCart
+    {
+        void AddProduct(IProduct product);
+
+        void RemoveProduct(IProduct product);
+
+        bool ContainsProduct(IProduct product);
+
+        decimal TotalPrice();
+    }
+}
+namespace Cosmetics.Contracts
+{
+    using System.Collections.Generic;
+
+    public interface IToothpaste : IProduct
+    {
+        string Ingredients { get; }
     }
 }

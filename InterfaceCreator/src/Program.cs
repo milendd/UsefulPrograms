@@ -18,6 +18,7 @@
                 Console.WriteLine("The classes were created for {0} milliseconds.", milliseconds);
                 Console.WriteLine(new string('#', 50));
 
+                // 0. Bug: fix new line when only methods
                 // 0. Bug: sb = new StringBuilder();
                 // 0. Bug: Fix new line when no properties
                 // 0. Consider bool for automatic property.
@@ -26,7 +27,6 @@
                 // Double, long and int -> array. Add unit tests. Remove all string concatination.Use append instead.
                 // Think for removing the second constructor from the class node(it can stay this way)
                 // 5. If bool, consider to Toggle, Convert, and so on...
-                // 6. Think for multiple interfaces: Human, ISmt, IOther, ...
                 // 8. It is possible for virtual components(don't know if is possible).
                 // 11. Add instructions in the github page.
                 // 12. Rename project, folders, etc... to Class creator, not interface creator
@@ -36,6 +36,12 @@
                 // 17. Remove hack for dictionary line 186 in Engine. Use while and string.Join!
                 // 18. Usings should be HQC! That means with arrays with the data.
                 // 19. TODO: implement directory files
+                // 20. Create file with settings (constants) Important!
+                // 21. Create directory Models with the result classes
+                // 22. Remove repeating code in read from directory and read from text file -> extract reading as method or class
+                // 23. Abstract class Engine with virtual(abstract) methods and different implementation for C#, Java, JavaScript, PHP...
+                // 24. throw new IndexOutOfRangeException("The overtime rate must be non-negative."); Implement a new class with the exceptions
+                // See the exam!
             }
             catch (FileNotFoundException)
             {
@@ -47,7 +53,9 @@
             }
             catch (KeyNotFoundException)
             {
-                Console.WriteLine("Please reorder the interfaces from the base class to the childs.");
+                Console.WriteLine("You could have classes which does not appear in the input!");
+                Console.WriteLine("Example: ITestClass: INotFound");
+                Thread.Sleep(2000);
             }
             catch (Exception ex)
             {

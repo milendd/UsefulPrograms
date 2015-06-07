@@ -4,11 +4,14 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using OOP_Interfaces_Creator.Contracts;
 
     public class InterfacesCreatorEngine : IInterfacesCreatorEngine
     {
+        public const int InputElementsMinCount = 4;
         public const string InputFileName = "input.txt";
+        public const string InputDirectoryName = "Contracts";
         public const string OutputDirectoryName = "Models";
 
         private static IInterfacesCreatorEngine instance;
@@ -24,7 +27,7 @@
 
         private InterfacesCreatorEngine()
         {
-            this.separators = new string[] { " ", "(", ")", "get;", "set;", "{", "}", ";", ":", "\t" };
+            this.separators = new string[] { " ", "(", ")", ",", "get;", "set;", "{", "}", ";", ":", "\t" };
             this.reader = new StreamReader(InputFileName);
             this.lines = new List<string>();
             this.nodes = new Dictionary<string, IClassNode>();
@@ -113,7 +116,23 @@
 
         private void ReadLinesFromDirectory()
         {
-            // TODO:
+            // TODO: Finish it!
+            var directory = new DirectoryInfo(Environment.CurrentDirectory + "/" + InputDirectoryName);
+            var files = directory.GetFiles().Where(x => x.Extension == ".cs");
+            foreach (var file in files)
+            {
+                using (var currentReader = file.OpenText())
+                {
+                    string line = currentReader.ReadLine();
+
+                    while (line != null)
+                    {
+                        line = line.Trim();
+                        this.lines.Add(line);
+                        line = currentReader.ReadLine();
+                    }
+                }
+            }
         }
 
         private void ProcessLines()
@@ -171,10 +190,19 @@
             this.currentNode = new ClassNode(this.currentNodeName, this.NamespaceName);
             this.nodes[this.currentNodeName] = this.currentNode;
 
-            if (inputElements.Length > 3)
+            if (inputElements.Length >= InputElementsMinCount)
             {
                 var parentName = inputElements[3];
                 this.nodes[parentName].AddChild(this.currentNode);
+            }
+
+            if (inputElements.Length > InputElementsMinCount)
+            {
+                var interfaces = inputElements.Skip(InputElementsMinCount).ToArray();
+                foreach (var interfaceName in interfaces)
+                {
+                    this.currentNode.AddInterface(interfaceName);
+                }
             }
         }
 

@@ -17,6 +17,7 @@
         private IList<IMethod> methods;
         private IList<IClassNode> children;
         private IList<string> usings;
+        private IList<string> interfaces;
 
         public ClassNode(string interfaceName)
         {
@@ -25,6 +26,7 @@
             this.methods = new List<IMethod>();
             this.children = new List<IClassNode>();
             this.usings = new List<string>();
+            this.interfaces = new List<string>();
         }
 
         public ClassNode(string interfaceName, string namespaceName)
@@ -172,6 +174,16 @@
             }
         }
 
+        public void AddInterface(string interfaceName)
+        {
+            if (string.IsNullOrEmpty(interfaceName))
+            {
+                throw new ArgumentException("The interface name cannot be null or empty");
+            }
+
+            this.interfaces.Add(interfaceName);
+        }
+
         public void ClearProperties()
         {
             this.properties.Clear();
@@ -317,7 +329,11 @@
                 result.AppendFormat("{0}, ", this.Parent.Name);
             }
 
-            result.AppendLine(this.IterfaceName);
+            result.Append(this.IterfaceName);
+            if (this.interfaces.Count != 0)
+            {
+                result.AppendLine(", " + string.Join(", ", this.interfaces));
+            }
 
             return result.ToString().TrimEnd();
         }
